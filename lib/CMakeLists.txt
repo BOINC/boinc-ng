@@ -1,0 +1,188 @@
+cmake_minimum_required(VERSION 3.10)
+
+# set the project name
+project(cmake-libs)
+
+set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_FLAGS)
+
+find_package(PkgConfig  QUIET)
+find_package(OpenSSL    REQUIRED)
+
+set(libfcgi_sources
+    boinc_fcgi.cpp
+    coproc.cpp
+    filesys.cpp
+    hostinfo.cpp
+    keyword.cpp
+    md5.cpp
+    md5_file.cpp
+    mfile.cpp
+    miofile.cpp
+    msg_log.cpp
+    opencl_boinc.cpp
+    parse.cpp
+    sched_msgs.cpp
+    shmem.cpp
+    str_util.cpp
+    synch.cpp
+    url.cpp
+    util.cpp
+    wslinfo.cpp
+)
+
+set(generic_sources
+    app_ipc.cpp
+    base64.cpp
+    cc_config.cpp
+    cert_sig.cpp
+    coproc.cpp
+    diagnostics.cpp
+    filesys.cpp
+    gui_rpc_client.cpp
+    gui_rpc_client_ops.cpp
+    gui_rpc_client_print.cpp
+    hostinfo.cpp
+    keyword.cpp
+    md5.cpp
+    md5_file.cpp
+    mem_usage.cpp
+    mfile.cpp
+    miofile.cpp
+    msg_log.cpp
+    network.cpp
+    notice.cpp
+    opencl_boinc.cpp
+    parse.cpp
+    prefs.cpp
+    procinfo.cpp
+    proc_control.cpp
+    project_init.cpp
+    proxy_info.cpp
+    sched_msgs.cpp
+    shmem.cpp
+    str_util.cpp
+    url.cpp
+    util.cpp
+    wslinfo.cpp
+    procinfo_unix.cpp
+    synch.cpp
+    unix_util.cpp
+)
+
+set(pkginclude_HEADERS
+    app_ipc.h
+    average.h
+    base64.h
+    boinc_fcgi.h
+    cal_boinc.h
+    cc_config.h
+    cert_sig.h
+    cl_boinc.h
+    common_defs.h
+    coproc.h
+    crypt.h
+    diagnostics.h
+    error_numbers.h
+    filesys.h
+    gui_rpc_client.h
+    hostinfo.h
+    md5.h
+    md5_file.h
+    mem_usage.h
+    mfile.h
+    miofile.h
+    msg_log.h
+    network.h
+    notice.h
+    opencl_boinc.h
+    parse.h
+    prefs.h
+    procinfo.h
+    proxy_info.h
+    sched_msgs.h
+    stackwalker_imports.h
+    str_util.h
+    url.h
+    util.h
+)
+
+set(noinst_HEADERS
+    msg_queue.h
+    proc_control.h
+    procinfo.h
+    shmem.h
+    str_replace.h
+    synch.h
+    unix_util.h
+)
+
+include_directories(
+    cmake-config
+    .
+    ..
+)
+
+set(libboinc_la_SOURCES
+    ${generic_sources}
+)
+
+set(libboinc_crypt_la_SOURCES
+    crypt.cpp
+)
+
+set(libboinc_fcgi_la_SOURCES
+    ${libfcgi_sources}
+)
+
+set(md5_test_SOURCES
+    md5_test.cpp
+)
+
+set(shmem_test_SOURCES
+    shmem_test.cpp
+)
+
+set(msg_test_SOURCES
+    msg_test.cpp
+)
+
+set(crypt_prog_SOURCES
+    crypt_prog.cpp
+)
+
+set(parse_test_SOURCES
+    parse_test.cpp
+)
+
+set(cmake_libs_libs
+    boinc.la
+    boinc_crypt.la
+    boinc_fcgi.la
+)
+
+add_library(boinc.la         STATIC ${libboinc_la_SOURCES})
+add_library(boinc_crypt.la   STATIC ${libboinc_crypt_la_SOURCES})
+add_library(boinc_fcgi.la    STATIC ${libboinc_crypt_la_SOURCES})
+
+add_executable(md5_test                ${md5_test_SOURCES})
+target_link_libraries(md5_test         ${cmake_libs_libs})
+
+# add_executable(shmem_test              ${shmem_test_SOURCES})
+# target_link_libraries(shmem_test       ${cmake_libs_libs})
+
+# add_executable(msg_test              ${msg_test_SOURCES})
+# target_link_libraries(msg_test       ${cmake_libs_libs})
+
+# add_executable(crypt_prog              ${crypt_prog_SOURCES})
+# target_link_libraries(crypt_prog       ${cmake_libs_libs} ${OPENSSL_LIBRARIES})
+
+add_executable(parse_test              ${parse_test_SOURCES})
+target_link_libraries(parse_test       ${cmake_libs_libs})
+
+enable_testing ()
+add_test (NAME md5_test     COMMAND md5_test)
+# add_test (NAME shmem_test  COMMAND shmem_test)
+# add_test (NAME msg_test    COMMAND msg_test)
+# add_test (NAME crypt_prog    COMMAND crypt_prog)
+add_test (NAME parse_test    COMMAND parse_test ../foo.xml)
