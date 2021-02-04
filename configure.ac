@@ -1046,6 +1046,24 @@ if echo $host_os | grep '^darwin' >/dev/null ; then
   if test `uname -r | sed 's/\.//g'` -lt 800 ; then
     AC_DEFINE_UNQUOTED(DARWIN_10_3, [1],[Define to 1 if compiling under OS X 10.3 or earlier])
   fi
+  AS_IF([test "${enable_client}" = "yes" || test "${enable_manager}" = "yes"],
+        [AC_MSG_WARN([
+===============================================================================
+WARNING: Building BOINC client and manager for macOS through Autotools is
+         deprecated. See PR#3804.
+
+    Please refer to the docs below on how to build BOINC for macOS.
+
+    boinc/mac_build/HowToBuildBOINC_XCode.rtf
+    boinc/mac_build/HowToBuildBOINC_XCode.pdf
+
+    To disable this warning, please run with the option:
+
+    ./configure --disable-client --disable-manager
+
+===============================================================================
+        ])
+  ])
 fi
 
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
