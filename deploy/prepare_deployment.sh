@@ -61,6 +61,14 @@ prepare_client() {
     prepare_7z_archive
 }
 
+prepare_wasm_client() {
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists client/boinc "${TARGET_DIR}"
+    cp_if_exists client/boinc_client.wasm "${TARGET_DIR}"
+    cp_if_exists samples/wasm/index.html "${TARGET_DIR}"
+    prepare_7z_archive
+}
+
 prepare_apps() {
     mkdir -p "${TARGET_DIR}"
     cp_if_exists samples/condor/boinc_gahp "${TARGET_DIR}"
@@ -221,6 +229,9 @@ case $TYPE in
     ;;
     android_apps-vcpkg)
         prepare_android_apps
+    ;;
+    wasm_client)
+        prepare_wasm_client
     ;;
     *)
         echo "unrecognized BOINC_TYPE $key"
