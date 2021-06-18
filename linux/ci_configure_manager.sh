@@ -11,7 +11,7 @@ BUILD_DIR="$PWD/3rdParty/linux"
 VCPKG_ROOT="$BUILD_DIR/vcpkg"
 export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 
-linux/update_vcpkg.sh
+linux/update_vcpkg_manager.sh
 
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-./configure --enable-vcpkg --with-ssl=$VCPKG_DIR --enable-apps --disable-server --disable-client --disable-manager
+./configure --enable-vcpkg --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config

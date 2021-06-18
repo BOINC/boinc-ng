@@ -198,6 +198,9 @@ case $TYPE in
     linux_apps-vcpkg)
         prepare_apps
     ;;
+    linux_manager-with-webview-vcpkg)
+        prepare_manager
+    ;;
     linux_manager-with-webview)
         prepare_manager
     ;;

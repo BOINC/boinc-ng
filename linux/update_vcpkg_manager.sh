@@ -14,10 +14,10 @@ export XDG_CACHE_HOME=$CACHE_DIR/vcpkgcache
 
 if [ ! -d $VCPKG_ROOT ]; then
     mkdir -p $BUILD_DIR
-    git -C $BUILD_DIR clone https://github.com/microsoft/vcpkg
+    git -C $BUILD_DIR clone https://github.com/JackBoosY/vcpkg -b dev/jack/for-test-only-wxwidgets-3
 fi
 
 git -C $VCPKG_ROOT pull
 $VCPKG_ROOT/bootstrap-vcpkg.sh
-$VCPKG_ROOT/vcpkg install rappture curl[core,openssl] opencl --clean-after-build
+$VCPKG_ROOT/vcpkg install freetype[core,bzip2,png] freeglut ftgl wxwidgets
 $VCPKG_ROOT/vcpkg upgrade --no-dry-run
