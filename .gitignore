@@ -225,3 +225,7 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+
+# WASM
+*.wasm
+a.out.js
